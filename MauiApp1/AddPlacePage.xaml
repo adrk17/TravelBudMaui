@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+             x:DataType="viewmodel:AddPlaceViewModel"
+             x:Class="MauiApp1.AddPlacePage"
+             Title="{Binding Title}">
+    <VerticalStackLayout Padding="20" Spacing="10">
+        <Entry Placeholder="Place name" FontSize="30" Text="{Binding PlaceName}"/>
+        <Entry Placeholder="Category" FontSize="20" Text="{Binding PlaceSubCategory}"/>
+        <Editor Placeholder="Description" FontSize="15" AutoSize="TextChanges" Text="{Binding PlaceDescription}"/>
+        <Button Text="Add" Command="{Binding AddNewPlaceCommand}"/>
+    </VerticalStackLayout>
+</ContentPage>

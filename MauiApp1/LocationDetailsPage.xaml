@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+             xmlns:model="clr-namespace:Resources.Classes"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewmodel:LocationDetailsViewModel"
+             x:Class="MauiApp1.LocationDetailsPage"
+             Title="{Binding Location.Title}">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+                EventName="Disappearing"
+                Command="{Binding SaveCommand}" />
+    </ContentPage.Behaviors>
+    <Grid ColumnDefinitions="*"
+         RowDefinitions="Auto, *, Auto"
+         RowSpacing="0">
+
+        <Label Text="{Binding Location.Description}" Grid.Row="0" Padding="10" FontSize="20"/>
+        
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Location.Places}">
+            
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Place">
+                    <Frame>
+                        <Grid Padding="0" ColumnSpacing="10" 
+                              ColumnDefinitions="Auto, *">
+                            <CheckBox Grid.Column="0" IsChecked="{Binding IsVisited} "/>
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="{Binding Title}" FontSize="23" />
+                                <Label Text="{Binding Description}" />
+                                <Label Text="{Binding SubCategory}" FontAttributes="Bold" BackgroundColor="Transparent"/>
+
+                            </VerticalStackLayout>
+                        </Grid>
+                        
+                    </Frame>
+                    
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Add new Place" Grid.Row="2"
+                 Margin="8"
+                Style="{StaticResource ButtonOutline}"
+                Command="{Binding GoToAddPlaceCommand}"/>
+    </Grid>
+   
+</ContentPage>

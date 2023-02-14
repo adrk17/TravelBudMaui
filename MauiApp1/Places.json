@@ -1,0 +1,68 @@
+[
+{
+  "Title": "Budapest",
+  "Description": "Capital city of Hungary",
+  "Places": [
+    {
+      "Title": "Buda Castle",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    },
+    {
+      "Title": "History Museum",
+      "Description": "Def",
+      "SubCategory": "Museum",
+      "IsVisited": false
+    },
+    {
+      "Title": "Default Title",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    },
+    {
+      "Title": "Default Title",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    },
+    {
+      "Title": "Default Title",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    }
+  ]
+},
+{
+  "Title": "Krakow",
+  "Description": "Beutiful City in Poland",
+  "Places": [
+    {
+      "Title": "Buda Castle",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    },
+    {
+      "Title": "History Museum",
+      "Description": "Def",
+      "SubCategory": "Museum",
+      "IsVisited": false
+    },
+    {
+      "Title": "Default Title",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    },
+    {
+      "Title": "Default Title",
+      "Description": "Default Description",
+      "SubCategory": "Other",
+      "IsVisited": false
+    }
+  ]
+}
+]

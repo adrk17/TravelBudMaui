@@ -1,0 +1,34 @@
+[
+    {
+        "Title":"Kraków",
+        "Description":"Beutiful city in Poland",
+        "Country":"Poland",
+        "Places":
+            [
+                {
+                    "Title":"Place1"
+                    ,"Description":"Description1",
+                    "SubCategory":"SubCategory1",
+                    "IsVisited":true
+                },
+                {
+                    "Title":"Place2",
+                    "Description":"Description2",
+                    "SubCategory":"SubCategory2",
+                    "IsVisited":false
+                },
+                {
+                    "Title":"Place3",
+                    "Description":"Description3",
+                    "SubCategory":"SubCategory3",
+                    "IsVisited":true
+                }
+            ]
+    },
+    {
+        "Title":"Budapest",
+        "Description":"Capital city of Hungary",
+        "Country":"Hungary",
+        "Places":null
+    }
+]
