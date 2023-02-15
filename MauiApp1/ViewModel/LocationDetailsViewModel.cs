@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Services;
+using static Android.Provider.CallLog;
 using my = Resources.Classes;
 namespace MauiApp1.ViewModel
 {
@@ -55,7 +56,7 @@ namespace MauiApp1.ViewModel
                     await Shell.Current.DisplayAlert("Error!", "Please fill out all fields", "OK");
                     return;
                 }
-                bool answer = await Shell.Current.DisplayAlert("Save editing of" + "\"" + Location.Title + "\"", "Are yuo sure?", "Save", "Cancel");
+                bool answer = await Shell.Current.DisplayAlert("Save editing of " + "\"" + Location.Title + "\"?", "Are you sure?", "Save", "Cancel");
                 if (!answer)
                     return;
 
@@ -97,6 +98,35 @@ namespace MauiApp1.ViewModel
                 {
                     {"Place", place}
                 });
+        }
+
+        [RelayCommand]
+        async Task DeletePlaceAsync(my.Place place)
+        {
+            bool answer = await Shell.Current.DisplayAlert("Delete " + "\"" + place.Title + "\"?", "Are you sure?", "Delete", "Cancel");
+            if (!answer)
+            {
+                return;
+            }
+
+            if (IsBusy)
+                return;
+            try
+            {
+                IsBusy = true;
+                Location.Places.Remove(place);
+                await Shell.Current.GoToAsync("../");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to delete place: {ex.Message}", "OK");
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 

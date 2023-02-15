@@ -48,20 +48,40 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Place">
-                    <Frame>
-                        <Grid Padding="0" ColumnSpacing="10" 
-                              ColumnDefinitions="Auto, *">
-                            <CheckBox Grid.Column="0" IsChecked="{Binding IsVisited} "/>
-                            <VerticalStackLayout Grid.Column="1">
-                                <Label Text="{Binding Title}" FontSize="23" />
-                                <Label Text="{Binding Description}" />
-                                <Label Text="{Binding SubCategory}" FontAttributes="Bold" BackgroundColor="Transparent"/>
 
-                            </VerticalStackLayout>
-                        </Grid>
-                        
-                    </Frame>
-                    
+                    <SwipeView Threshold="40" IsClippedToBounds="True">
+                        <SwipeView.LeftItems>
+                            <SwipeItems Mode="Execute" >
+                                <SwipeItemView
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=DeletePlaceCommand}" 
+                                           CommandParameter="{Binding .}"
+                                           >
+
+                                    <Border BackgroundColor="#A01515" StrokeShape="RoundRectangle 10,0,10,0" Margin="0" StrokeThickness="0">
+                                        <Label Text="Delete" TextColor="White" FontSize="10"  />
+                                    </Border>
+
+                                </SwipeItemView>
+
+                            </SwipeItems>
+                        </SwipeView.LeftItems>
+                        <Frame>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=GoToPlaceDetailsCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid Padding="0" ColumnSpacing="10" 
+                              ColumnDefinitions="Auto, *">
+                                <CheckBox Grid.Column="0" IsChecked="{Binding IsVisited} "/>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Text="{Binding Title}" FontSize="23" />
+                                    <Label Text="{Binding SubCategory}" FontAttributes="Bold" BackgroundColor="Transparent"/>
+
+                                </VerticalStackLayout>
+                            </Grid>
+
+                        </Frame>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -69,6 +89,13 @@
                  Margin="8"
                 Style="{StaticResource ButtonOutline}"
                 Command="{Binding GoToAddPlaceCommand}"/>
+        
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.RowSpan="4"/>
+
     </Grid>
    
 </ContentPage>

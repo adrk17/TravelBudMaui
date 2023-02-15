@@ -54,17 +54,34 @@ namespace MauiApp1.ViewModel
             if (location is null)
                 return;
 
-            await Shell.Current.GoToAsync($"{nameof(LocationDetailsPage)}", true,
+            if (IsBusy)
+                return;
+            try
+            {
+
+                await Shell.Current.GoToAsync($"{nameof(LocationDetailsPage)}", true,
                 new Dictionary<string, object>
                 {
                     {"Location", location}
                 });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to go to this location: {ex.Message}", "OK");
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
         }
 
         [RelayCommand]
         async Task DeleteLocationAsync(my.Location location)
         {
-            bool answer = await Shell.Current.DisplayAlert("Delete "+ "\"" + location.Title + "\"", "Are yuo sure?", "Delete", "Cancel");
+            bool answer = await Shell.Current.DisplayAlert("Delete "+ "\"" + location.Title + "\"?", "Are you sure?", "Delete", "Cancel");
             if (!answer)
             {
                 return;
