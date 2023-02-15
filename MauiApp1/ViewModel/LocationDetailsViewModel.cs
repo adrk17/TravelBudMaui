@@ -35,8 +35,69 @@ namespace MauiApp1.ViewModel
                     {"Location", Location}
                 });
         }
+        [ObservableProperty]
+        string editTitle;
+        [ObservableProperty]
+        string editCountry;
+        [ObservableProperty]
+        string editDescription;
 
-        
+        [RelayCommand]
+        async Task SaveEditChangesAsync()
+        {
+            if (IsBusy)
+                return;
+            try
+            {
+                IsBusy = true;
+                if (string.IsNullOrWhiteSpace(EditTitle) || string.IsNullOrWhiteSpace(EditCountry) || string.IsNullOrWhiteSpace(EditDescription))
+                {
+                    await Shell.Current.DisplayAlert("Error!", "Please fill out all fields", "OK");
+                    return;
+                }
+                bool answer = await Shell.Current.DisplayAlert("Save editing of" + "\"" + Location.Title + "\"", "Are yuo sure?", "Save", "Cancel");
+                if (!answer)
+                    return;
+
+                Location.Title = EditTitle;
+                Location.Country = EditCountry;
+                Location.Description = EditDescription;
+                locationService.SaveLocations();
+                await Shell.Current.GoToAsync("../");
+
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to edit the location: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        void LoadEditValues()
+        {
+            EditTitle = Location.Title;
+            EditCountry = Location.Country;
+            EditDescription = Location.Description;
+        }
+
+
+        [RelayCommand]
+        async Task GoToPlaceDetailsAsync(my.Place place)
+        {
+            if (place is null)
+                return;
+
+            await Shell.Current.GoToAsync($"{nameof(PlaceDetailsPage)}", true,
+                new Dictionary<string, object>
+                {
+                    {"Place", place}
+                });
+        }
     }
 
    

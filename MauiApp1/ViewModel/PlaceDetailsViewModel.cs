@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.ViewModel
 {
+    [QueryProperty("Place", "Place")]
     public partial class PlaceDetailsViewModel : BaseViewModel
     {
     }

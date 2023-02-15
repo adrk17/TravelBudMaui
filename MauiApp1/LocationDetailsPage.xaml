@@ -11,14 +11,40 @@
         <toolkit:EventToCommandBehavior
                 EventName="Disappearing"
                 Command="{Binding SaveCommand}" />
+        <toolkit:EventToCommandBehavior 
+                EventName="Appearing"
+                Command="{Binding LoadEditValuesCommand}" />
     </ContentPage.Behaviors>
     <Grid ColumnDefinitions="*"
-         RowDefinitions="Auto, *, Auto"
+         RowDefinitions="Auto, Auto, *, Auto"
          RowSpacing="0">
+        <toolkit:Expander Grid.Row="0">
+            <toolkit:Expander.Header>
+                <Image Source="edit.png" WidthRequest="30" Margin="10" HorizontalOptions="Start" ></Image>
+            </toolkit:Expander.Header>
+            <Frame CornerRadius="20" BackgroundColor="#230841">
+                <VerticalStackLayout>
+                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
+                        <Label Text="Title" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
+                        <Entry Text="{Binding EditTitle}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
+                        <Label Text="Country" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
+                        <Entry Text="{Binding EditCountry}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
+                        <Label Text="Description" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
+                        <Editor AutoSize="TextChanges" Text="{Binding EditDescription}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    </HorizontalStackLayout>
+                    <Button Text="Save" Margin="8" Command="{Binding SaveEditChangesCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                </VerticalStackLayout>
+            </Frame>
+       
+        </toolkit:Expander>
 
-        <Label Text="{Binding Location.Description}" Grid.Row="0" Padding="10" FontSize="20"/>
+        <Label Text="{Binding Location.Description}" Grid.Row="1" Padding="10" FontSize="20"/>
         
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Location.Places}">
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Location.Places}">
             
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Place">
@@ -39,7 +65,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Text="Add new Place" Grid.Row="2"
+        <Button Text="Add new Place" Grid.Row="3"
                  Margin="8"
                 Style="{StaticResource ButtonOutline}"
                 Command="{Binding GoToAddPlaceCommand}"/>
