@@ -33,7 +33,7 @@
                                            CommandParameter="{Binding .}"
                                            >
 
-                                    <Border BackgroundColor="#A01515" StrokeShape="RoundRectangle 10,0,10,0" Margin="0">
+                                    <Border BackgroundColor="#A01515" StrokeShape="RoundRectangle 10,0,10,0" Margin="0" StrokeThickness="0">
                                         <Label Text="Delete" TextColor="White" FontSize="10"  />
                                     </Border>
 
@@ -41,7 +41,7 @@
 
                             </SwipeItems>
                         </SwipeView.LeftItems>
-                        <Frame HeightRequest="125" Padding="0" Margin="4,4,0,8"
+                        <Frame HeightRequest="125" Padding="0" Margin="6,6,6,3"
                            Style="{StaticResource CardView}">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer CommandParameter="{Binding .}"

@@ -20,11 +20,13 @@ public static class MauiProgram
         builder.Services.AddTransient<LocationDetailsViewModel>();
         builder.Services.AddSingleton<AddLocationViewModel>();
         builder.Services.AddTransient<AddPlaceViewModel>();
-
+        builder.Services.AddTransient<PlaceDetailsViewModel>();
+        
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddTransient<LocationDetailsPage>();
         builder.Services.AddSingleton<AddLocationPage>();
         builder.Services.AddTransient<AddPlacePage>();
+        builder.Services.AddTransient<PlaceDetailsPage>();
 
         return builder.Build();
     }
