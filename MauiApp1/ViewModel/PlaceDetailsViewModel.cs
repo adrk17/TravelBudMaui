@@ -25,6 +25,8 @@ namespace MauiApp1.ViewModel
         string editSubCategory;
         [ObservableProperty]
         string editDescription;
+        [ObservableProperty]
+        string editImgUrl;
 
         [RelayCommand]
         async Task SaveEditChangesAsync()
@@ -34,10 +36,18 @@ namespace MauiApp1.ViewModel
             try
             {
                 IsBusy = true;
-                if (string.IsNullOrWhiteSpace(EditTitle) || string.IsNullOrWhiteSpace(EditSubCategory) || string.IsNullOrWhiteSpace(EditDescription))
+                if (string.IsNullOrWhiteSpace(EditTitle) || string.IsNullOrWhiteSpace(EditSubCategory))
                 {
                     await Shell.Current.DisplayAlert("Error!", "Please fill out all fields", "OK");
                     return;
+                }
+                if (string.IsNullOrWhiteSpace(EditDescription))
+                {
+                    EditDescription = "";
+                }
+                if (string.IsNullOrWhiteSpace(EditImgUrl))
+                {
+                    EditImgUrl = "";
                 }
                 bool answer = await Shell.Current.DisplayAlert("Save editing of " + "\"" + Place.Title + "\"?", "Are you sure?", "Save", "Cancel");
                 if (!answer)
@@ -46,6 +56,7 @@ namespace MauiApp1.ViewModel
                 Place.Title = EditTitle;
                 Place.SubCategory = EditSubCategory;
                 Place.Description = EditDescription;
+                Place.ImageURL = EditImgUrl;
                 locationService.SaveLocations();
                 await Shell.Current.GoToAsync("../../");
 
@@ -67,6 +78,27 @@ namespace MauiApp1.ViewModel
             EditTitle = Place.Title;
             EditSubCategory = Place.SubCategory;
             EditDescription = Place.Description;
+            EditImgUrl = Place.ImageURL;
+        }
+
+        [ObservableProperty]
+        ImageSource editImageSourceVar;
+
+        [RelayCommand]
+        public void EditPickImage()
+        {
+            if (EditImgUrl is null || EditImgUrl == "")
+            {
+                return;
+            }
+            try
+            {
+                EditImageSourceVar = ImageSource.FromUri(new Uri(EditImgUrl));
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
         }
     }
 }

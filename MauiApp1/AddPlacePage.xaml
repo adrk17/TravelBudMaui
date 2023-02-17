@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
-             x:DataType="viewmodel:AddPlaceViewModel"
-             x:Class="MauiApp1.AddPlacePage"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MauiApp1.AddPlacePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+    Title="{Binding Title}"
+    x:DataType="viewmodel:AddPlaceViewModel">
     <VerticalStackLayout Padding="20" Spacing="10">
-        <Entry Placeholder="Place name" FontSize="30" Text="{Binding PlaceName}"/>
-        <Entry Placeholder="Category" FontSize="20" Text="{Binding PlaceSubCategory}"/>
-        <Editor Placeholder="Description" FontSize="15" AutoSize="TextChanges" Text="{Binding PlaceDescription}"/>
-        <Button Text="Add" Command="{Binding AddNewPlaceCommand}"/>
+        <Entry
+            FontSize="30"
+            Placeholder="Place name"
+            Text="{Binding PlaceName}" />
+        <Entry
+            FontSize="20"
+            Placeholder="Category"
+            Text="{Binding PlaceSubCategory}" />
+        <Editor
+            AutoSize="TextChanges"
+            FontSize="15"
+            Placeholder="Description(Optional)"
+            Text="{Binding PlaceDescription}" />
+        <Image
+            Aspect="AspectFill"
+            HeightRequest="200"
+            Source="{Binding PlaceImageSourceVar}" />
+        <Entry
+            FontSize="20"
+            Placeholder="Image Url(Optional)"
+            Text="{Binding PlaceImgUrl}" />
+        <Button
+            Command="{Binding PlacePickImageCommand}"
+            HorizontalOptions="Start"
+            Text="Load image"
+            WidthRequest="200" />
+        <Button Command="{Binding AddNewPlaceCommand}" Text="Add" />
     </VerticalStackLayout>
 </ContentPage>

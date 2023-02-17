@@ -8,7 +8,7 @@ namespace MauiApp1.Services
     {
         List<my.Location> locations = new List<my.Location>();
 
-
+        /*
         public async Task ConvertDebugFileToAppData(string sourceFile, string targetFileName)
         {
             // Read the source file
@@ -25,27 +25,37 @@ namespace MauiApp1.Services
             using StreamWriter streamWriter = new StreamWriter(outputStream);
 
             await streamWriter.WriteAsync(content);
-        }
-
+        }*/
+        
         public async Task<List<my.Location>> GetLocations()
         {
-            if (locations.Count == 0)
-            {
-                string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "locations.json");
-
-                if (!System.IO.File.Exists(targetFile))
+            try {
+                if (locations.Count == 0)
                 {
-                    await ConvertDebugFileToAppData("locations.json", "locations.json");
+                    string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "locations.json");
+
+                    if (!System.IO.File.Exists(targetFile))
+                    {
+                        //await ConvertDebugFileToAppData("locations.json", "locations.json");
+                        await Shell.Current.DisplayAlert("Error!", "Unable to find locations.json file", "OK");
+                        return new List<my.Location>();
+                    }
+
+
+                    using StreamReader reader = new StreamReader(targetFile);
+
+                    string jsonString = await reader.ReadToEndAsync();
+
+                    locations = JsonConvert.DeserializeObject<List<my.Location>>(jsonString);
                 }
-
-     
-                using StreamReader reader = new StreamReader(targetFile);
-
-                string jsonString = await reader.ReadToEndAsync();
-
-                locations = JsonConvert.DeserializeObject<List<my.Location>>(jsonString);
-            }
-
+             }
+             catch(Exception ex)
+             {
+                    System.Diagnostics.Debug.WriteLine(ex);
+                    await Shell.Current.DisplayAlert("Error!", "Unable to convert locations.json to object", "OK");
+             }
+          
+            
             return locations;
         }
 
@@ -67,5 +77,10 @@ namespace MauiApp1.Services
             string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, "locations.json");
             File.WriteAllText(targetFile, jsonString);
         }
+
+
+       
+
+       
     }
 }

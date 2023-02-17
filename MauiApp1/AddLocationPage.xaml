@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
-             x:DataType="viewmodel:AddLocationViewModel"
-             x:Class="MauiApp1.AddLocationPage"
-             Title="{Binding Title}">
+<ContentPage
+    x:Class="MauiApp1.AddLocationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+    Title="{Binding Title}"
+    x:DataType="viewmodel:AddLocationViewModel">
     <VerticalStackLayout Padding="20" Spacing="10">
-        <Entry Placeholder="Location name" FontSize="30" Text="{Binding LocationName}"/>
-        <Entry Placeholder="Country" FontSize="20" Text="{Binding Country}"/>
-        <Editor Placeholder="Description" FontSize="15" AutoSize="TextChanges" Text="{Binding Description}"/>
-        <Button Text="Add" Command="{Binding AddNewLocationCommand}"/>
+        <Entry
+            FontSize="30"
+            Placeholder="Location name"
+            Text="{Binding LocationName}" />
+        <Entry
+            FontSize="20"
+            Placeholder="Country"
+            Text="{Binding Country}" />
+        <Editor
+            AutoSize="TextChanges"
+            FontSize="15"
+            Placeholder="Description(Optional)"
+            Text="{Binding Description}" />
+        <Image
+            Aspect="AspectFill"
+            HeightRequest="200"
+            Source="{Binding ImageSourceVar}" />
+        <Entry
+            FontSize="20"
+            Placeholder="Image Url(Optional)"
+            Text="{Binding ImgUrl}" />
+        <Button
+            Command="{Binding PickImageCommand}"
+            HorizontalOptions="Start"
+            Text="Load image"
+            WidthRequest="200" />
+        <Button Command="{Binding AddNewLocationCommand}" Text="Add" />
     </VerticalStackLayout>
 </ContentPage>

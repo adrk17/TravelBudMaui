@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Services;
+using static System.Net.WebRequestMethods;
 using my = Resources.Classes;
 
 namespace MauiApp1.ViewModel
@@ -27,7 +28,7 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         async Task AddNewLocationAsync()
         {
-            if (string.IsNullOrWhiteSpace(LocationName) || string.IsNullOrWhiteSpace(Description) || string.IsNullOrWhiteSpace(Country))
+            if (string.IsNullOrWhiteSpace(LocationName) || string.IsNullOrWhiteSpace(Country))
             {
                 await Shell.Current.DisplayAlert("Error!", "Please fill out all fields", "OK");
                 return;
@@ -37,7 +38,15 @@ namespace MauiApp1.ViewModel
             try
             {
                 IsBusy = true;
-                my.Location newLocation = new my.Location(LocationName, Description, Country);
+                if (string.IsNullOrWhiteSpace(Description))
+                {
+                    Description = "";
+                }
+                if (string.IsNullOrWhiteSpace(ImgUrl))
+                {
+                    ImgUrl = "";
+                }
+                my.Location newLocation = new my.Location(LocationName, Description, Country, null, ImgUrl);
                 locationService.AddLocation(newLocation);
                 await Shell.Current.GoToAsync("..");
             }
@@ -50,6 +59,29 @@ namespace MauiApp1.ViewModel
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        [ObservableProperty]
+        ImageSource imageSourceVar;
+
+        [ObservableProperty]
+        string imgUrl;
+
+        [RelayCommand]
+        public void PickImage()
+        {
+            if (ImgUrl is null || ImgUrl == "")
+            {
+                return;
+            }
+            try
+            {
+                ImageSourceVar = ImageSource.FromUri(new Uri(ImgUrl));
+            }
+            catch (Exception ex)
+            {
+                return;
             }
         }
     }

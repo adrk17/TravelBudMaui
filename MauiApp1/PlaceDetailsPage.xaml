@@ -1,56 +1,151 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
-             xmlns:model="clr-namespace:Resources.Classes"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="MauiApp1.PlaceDetailsPage"
-             x:DataType="viewmodel:PlaceDetailsViewModel"
-             Title="{Binding Place.Title}">
+<ContentPage
+    x:Class="MauiApp1.PlaceDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:Resources.Classes"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
+    Title="{Binding Place.Title}"
+    x:DataType="viewmodel:PlaceDetailsViewModel">
     <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior 
-                EventName="Appearing"
-                Command="{Binding LoadEditValuesCommand}" />
+        <toolkit:EventToCommandBehavior Command="{Binding LoadEditValuesCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
-    <Grid ColumnDefinitions="*"
-         RowDefinitions="Auto, Auto, Auto"
-         RowSpacing="0">
+    <Grid
+        ColumnDefinitions="*"
+        RowDefinitions="Auto, Auto, Auto"
+        RowSpacing="0">
         <toolkit:Expander Grid.Row="0">
             <toolkit:Expander.Header>
-                <Image Source="edit.png" WidthRequest="30" Margin="10" HorizontalOptions="Start" ></Image>
+                <Image
+                    Margin="10"
+                    HorizontalOptions="Start"
+                    Source="edit.png"
+                    WidthRequest="30" />
             </toolkit:Expander.Header>
-            <Frame CornerRadius="20" BackgroundColor="#230841">
+            <Frame
+                BackgroundColor="#230841"
+                CornerRadius="20"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+
                 <VerticalStackLayout>
-                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
-                        <Label Text="Name" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
-                        <Entry Text="{Binding EditTitle}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    <HorizontalStackLayout
+                        Margin="0"
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        Spacing="10">
+
+                        <Label
+                            Margin="0"
+                            FontSize="20"
+                            Text="Name"
+                            TextColor="AntiqueWhite"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Margin="0"
+                            FontSize="20"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding EditTitle}"
+                            TextColor="Azure"
+                            VerticalOptions="Center" />
                     </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
-                        <Label Text="Category" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
-                        <Entry Text="{Binding EditSubCategory}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    <HorizontalStackLayout
+                        Margin="0"
+                        Padding="0"
+                        HorizontalOptions="FillAndExpand"
+                        Spacing="10">
+                        <Label
+                            Margin="0"
+                            FontSize="20"
+                            Text="Category"
+                            TextColor="AntiqueWhite"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Margin="0"
+                            FontSize="20"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding EditSubCategory}"
+                            TextColor="Azure"
+                            VerticalOptions="Center" />
                     </HorizontalStackLayout>
-                    <HorizontalStackLayout Spacing="10" Margin="0" Padding="0">
-                        <Label Text="Description" FontSize="20" Margin="0" TextColor="AntiqueWhite"  VerticalOptions="Center"/>
-                        <Editor AutoSize="TextChanges" Text="{Binding EditDescription}" FontSize="20" Margin="0" VerticalOptions="Center" TextColor="Azure"/>
+                    <HorizontalStackLayout
+                        Margin="0"
+                        Padding="0"
+                        Spacing="10"
+                        VerticalOptions="FillAndExpand">
+                        <Label
+                            Margin="0"
+                            FontSize="20"
+                            Text="Description"
+                            TextColor="AntiqueWhite"
+                            VerticalOptions="Center" />
+                        <Editor
+                            Margin="0"
+                            AutoSize="Disabled"
+                            FontSize="20"
+                            HorizontalOptions="Start"
+                            Placeholder="Description"
+                            Text="{Binding EditDescription}"
+                            TextColor="Azure"
+                            VerticalOptions="Center" />
+
                     </HorizontalStackLayout>
-                    <Button Text="Save" Margin="8" Command="{Binding SaveEditChangesCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Image
+                        Aspect="AspectFill"
+                        HeightRequest="200"
+                        Source="{Binding EditImageSourceVar}" />
+                    <HorizontalStackLayout>
+                        <Label
+                            Margin="0"
+                            FontSize="20"
+                            Text="Image link"
+                            TextColor="AntiqueWhite"
+                            VerticalOptions="Center" />
+                        <Entry
+                            Margin="10,0,0,0"
+                            FontSize="20"
+                            HorizontalOptions="FillAndExpand"
+                            Placeholder="Image Link"
+                            Text="{Binding EditImgUrl}"
+                            TextColor="Azure"
+                            VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Button
+                        Command="{Binding EditPickImageCommand}"
+                        HorizontalOptions="Start"
+                        Text="Load image"
+                        WidthRequest="200" />
+                    <Button
+                        Margin="8"
+                        Command="{Binding SaveEditChangesCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        Text="Save"
+                        VerticalOptions="FillAndExpand" />
                 </VerticalStackLayout>
             </Frame>
 
         </toolkit:Expander>
 
         <VerticalStackLayout Grid.Row="1">
-            <Label Text="{Binding Place.SubCategory}" />
-            <Label Text="{Binding Place.Description}" />
+            <Frame HorizontalOptions="End">
+                <Label Text="{Binding Place.SubCategory}" />
+            </Frame>
+            <Frame>
+                <Label Text="{Binding Place.Description}" />
+            </Frame>
+
 
 
         </VerticalStackLayout>
 
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="FillAndExpand"
-                           VerticalOptions="CenterAndExpand"
-                           Grid.RowSpan="3"/>
+        <ActivityIndicator
+            Grid.RowSpan="3"
+            HorizontalOptions="FillAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="CenterAndExpand" />
 
     </Grid>
 </ContentPage>

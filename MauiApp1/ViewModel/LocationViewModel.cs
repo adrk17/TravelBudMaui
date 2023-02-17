@@ -8,7 +8,7 @@ namespace MauiApp1.ViewModel
 {
     public partial class LocationViewModel : BaseViewModel
     {
-        public ObservableCollection<my.Location> Locations { get; } = new();
+        public ObservableCollection<my.Location> Locations { get; set; } = new();
 
         LocationService locationService;
 

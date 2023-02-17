@@ -32,7 +32,7 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         async Task AddNewPlaceAsync()
         {
-            if (string.IsNullOrWhiteSpace(PlaceName) || string.IsNullOrWhiteSpace(PlaceDescription) || string.IsNullOrWhiteSpace(PlaceSubCategory))
+            if (string.IsNullOrWhiteSpace(PlaceName) || string.IsNullOrWhiteSpace(PlaceSubCategory))
             {
                 await Shell.Current.DisplayAlert("Error!", "Please fill out all fields", "OK");
                 return;
@@ -42,11 +42,19 @@ namespace MauiApp1.ViewModel
             try
             {
                 IsBusy = true;
-                my.Place newPlace = new my.Place(PlaceName, PlaceDescription, PlaceSubCategory);
+                if (string.IsNullOrWhiteSpace(PlaceDescription))
+                {
+                    PlaceDescription = "";
+                }
+                if (string.IsNullOrWhiteSpace(PlaceImgUrl))
+                {
+                    PlaceImgUrl = "";
+                }
+                my.Place newPlace = new my.Place(PlaceName, PlaceDescription, PlaceSubCategory, false, true, PlaceImgUrl);
                 Location.Places.Add(newPlace);
                 locationService.SaveLocations();
 
-                await Shell.Current.GoToAsync("../../");
+                await Shell.Current.GoToAsync("../");
             }
             catch (Exception ex)
             {
@@ -59,6 +67,30 @@ namespace MauiApp1.ViewModel
                 IsBusy = false;
             }
         }
-    }
 
+        
+
+        [ObservableProperty]
+        ImageSource placeImageSourceVar;
+
+        [ObservableProperty]
+        string placeImgUrl;
+        
+        [RelayCommand]
+        public void PlacePickImage()
+        {
+            if (PlaceImgUrl is null || PlaceImgUrl == "")
+            {
+                return;
+            }
+            try
+            {
+                PlaceImageSourceVar = ImageSource.FromUri(new Uri(PlaceImgUrl));
+            }
+            catch(Exception ex)
+            {
+                return;
+            }
+        }
+    }
 }

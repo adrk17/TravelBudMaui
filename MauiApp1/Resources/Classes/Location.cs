@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace Resources.Classes
 {
@@ -11,25 +9,29 @@ namespace Resources.Classes
         public string Title { get; set; }
         public string Description { get; set; }
         public string Country { get; set; }
-        public List<Place> Places { get; set; }
+        public ObservableCollection<Place> Places { get; set; }
+        public string ImageURL { get; set; }
+
 
         public Location()
         {
             Title = "Default";
-            Description = "Default";
+            Description = "";
             Country = "Unknown";
-            Places = new List<Place>();
+            Places = new ();
+            ImageURL = "";
         }
 
-        public Location(string title, string description, string country, List<Place> places = null)
+        public Location(string title, string description, string country, ObservableCollection<Place> places = null, string imageURL = "")
         {
             Title = title;
             Description = description;
             Country = country;
             if (places == null)
-                Places = new List<Place>();
+                Places = new ();
             else
                 Places = places;
+            ImageURL = imageURL;
         }
 
         public void AddPlace(Place place)
@@ -46,4 +48,6 @@ namespace Resources.Classes
             Places.RemoveAt(index);
         }
     }
+
+
 }
