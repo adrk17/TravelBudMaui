@@ -12,15 +12,25 @@
         <toolkit:EventToCommandBehavior Command="{Binding LoadEditValuesCommand}" EventName="Appearing" />
         <toolkit:EventToCommandBehavior Command="{Binding GetDistanceToPlaceCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
+    <ContentPage.Background>
 
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.00" Color="#FFFFFF" />
+            <GradientStop Offset="0.5" Color="#760FFF" />
+
+            <GradientStop Offset="0.67" Color="#9E00FF" />
+            <GradientStop Offset="0.95" Color="#FFFFFF" />
+        </LinearGradientBrush>
+
+    </ContentPage.Background>
     <Grid
         ColumnDefinitions="*"
-        RowDefinitions="Auto, Auto, *"
+        RowDefinitions="Auto, Auto, Auto, *"
         RowSpacing="0">
         <Image
-            Grid.RowSpan="6"
+            Grid.RowSpan="4"
             Aspect="AspectFill"
-            Opacity="0.4"
+            Opacity="0.7"
             Source="{Binding Place.ImageURL}" />
         <toolkit:Expander Grid.Row="0">
             <toolkit:Expander.Header>
@@ -127,48 +137,83 @@
         </toolkit:Expander>
         <Border
             Grid.Row="0"
-            Margin="2,2,2,2"
-            Padding="8,8,8,8"
+            Margin="2,5,11,2"
+            Padding="10"
             HorizontalOptions="End"
-            StrokeShape="RoundRectangle 40,40,40,40"
+            Stroke="#009018"
+            StrokeShape="RoundRectangle 10"
             VerticalOptions="StartAndExpand">
             <Label Text="{Binding Place.SubCategory}" />
         </Border>
-        <VerticalStackLayout
-            Grid.Row="1"
-            HorizontalOptions="FillAndExpand"
-            VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Grid.Row="1" Margin="10">
             <Label
-                Grid.Row="1"
-                Padding="10"
+                Margin="20"
                 FontSize="20"
                 Text="{Binding Place.Description}" />
-            <StackLayout RadioButtonGroup.GroupName="Map options">
-                <Label Text="Map searching mode:" />
-                <RadioButton Content="Only Coordinates" IsChecked="{Binding Coords}" />
-                <RadioButton Content="Only Address" IsChecked="{Binding Address}" />
-                <RadioButton Content="Address + Category" IsChecked="{Binding AddressCategory}" />
-            </StackLayout>
-            <Label Text="Current distance to target:" />
-            <Label
-                Padding="10"
-                FontSize="20"
-                Text="{Binding Place.DistanceString}" />
-
-
-
-
-
+            <Line
+                Stroke="#fc0065"
+                StrokeThickness="2"
+                X1="0"
+                X2="1000"
+                Y1="0" />
         </VerticalStackLayout>
-        <Button
+
+
+        <Border
             Grid.Row="2"
-            Command="{Binding NavigateToMapsCommand}"
-            HorizontalOptions="FillAndExpand"
-            Text="Open Maps"
-            VerticalOptions="EndAndExpand" />
+            Margin="10"
+            Padding="50"
+            HorizontalOptions="Center"
+            Stroke="#ff8c00"
+            StrokeShape="RoundRectangle 50">
+            <VerticalStackLayout
+                Padding="0"
+                HorizontalOptions="Center"
+                VerticalOptions="CenterAndExpand">
+
+                <StackLayout RadioButtonGroup.GroupName="Map options">
+                    <Label Text="Map searching mode:" />
+                    <RadioButton Content="Only Coordinates" IsChecked="{Binding Coords}" />
+                    <RadioButton Content="Only Address" IsChecked="{Binding Address}" />
+                    <RadioButton Content="Address + Category" IsChecked="{Binding AddressCategory}" />
+                </StackLayout>
+                <Label Text="Current distance to target:" />
+                <Label
+                    Padding="10"
+                    FontSize="20"
+                    Text="{Binding Place.DistanceString}"
+                    TextColor="#00BF92" />
+
+
+
+
+
+            </VerticalStackLayout>
+        </Border>
+        <HorizontalStackLayout
+            Grid.Row="3"
+            Padding="10"
+            HorizontalOptions="CenterAndExpand"
+            Spacing="10">
+            <Button
+                BorderColor="#029270"
+                Command="{Binding NavigateToMapsCommand}"
+                HorizontalOptions="StartAndExpand"
+                Text="Open Maps"
+                VerticalOptions="EndAndExpand"
+                WidthRequest="180" />
+            <Button
+                BorderColor="#967613"
+                Command="{Binding OpenBrowserCommand}"
+                HorizontalOptions="EndAndExpand"
+                Text="Open Browser"
+                VerticalOptions="EndAndExpand"
+                WidthRequest="180" />
+        </HorizontalStackLayout>
+
 
         <ActivityIndicator
-            Grid.RowSpan="3"
+            Grid.RowSpan="4"
             HorizontalOptions="FillAndExpand"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"

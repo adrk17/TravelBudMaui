@@ -6,6 +6,17 @@
     xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
     Title="{Binding Title}"
     x:DataType="viewmodel:AddPlaceViewModel">
+    <ContentPage.Background>
+
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.00" Color="#FFFFFF" />
+            <GradientStop Offset="0.5" Color="#760FFF" />
+
+            <GradientStop Offset="0.67" Color="#9E00FF" />
+            <GradientStop Offset="0.95" Color="#FFFFFF" />
+        </LinearGradientBrush>
+
+    </ContentPage.Background>
     <VerticalStackLayout Padding="20" Spacing="10">
         <Entry
             FontSize="30"

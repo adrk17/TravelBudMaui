@@ -15,7 +15,7 @@ namespace MauiApp1.ViewModel
 
         public LocationViewModel(LocationService locationService)
         {
-            Title = "BudApp - Main Page";
+            Title = "TravelBud";
             this.locationService = locationService;
             
         }
@@ -118,6 +118,35 @@ namespace MauiApp1.ViewModel
         async Task GoToAddLocationPageAsync()
         {
             await Shell.Current.GoToAsync($"{nameof(AddLocationPage)}", true);
+        }
+
+
+        [RelayCommand]
+        async Task RefreshLocationsAsync()
+        {
+            if (IsBusy)
+                return;
+            try
+            {
+                IsBusy = true;
+                var locationsFromService = await locationService.GetLocations(true);
+
+                if (Locations.Count != 0)
+                    Locations.Clear();
+
+                foreach (var locationFromService in locationsFromService)
+                    Locations.Add(locationFromService);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to get locations: {ex.Message}", "OK");
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

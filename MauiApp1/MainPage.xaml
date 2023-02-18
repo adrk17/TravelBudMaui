@@ -7,18 +7,38 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:viewmodel="clr-namespace:MauiApp1.ViewModel"
     Title="{Binding Title}"
-    x:DataType="viewmodel:LocationViewModel"
-    BackgroundColor="#a49beb">
+    x:DataType="viewmodel:LocationViewModel">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding GetLocationsCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
+    <ContentPage.Background>
+
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Offset="0.00" Color="#FFFFFF" />
+            <GradientStop Offset="0.5" Color="#760FFF" />
+
+            <GradientStop Offset="0.67" Color="#9E00FF" />
+            <GradientStop Offset="0.95" Color="#FFFFFF" />
+        </LinearGradientBrush>
+
+    </ContentPage.Background>
 
     <Grid
         ColumnDefinitions="*"
-        RowDefinitions="*,Auto"
-        RowSpacing="0">
-
+        RowDefinitions="Auto,*,Auto"
+        RowSpacing="0"
+        VerticalOptions="FillAndExpand">
+        <Button
+            Grid.Row="0"
+            Margin="8"
+            Padding="10"
+            BorderColor="#1880F0"
+            Command="{Binding RefreshLocationsCommand}"
+            HorizontalOptions="Start"
+            Text="Refresh"
+            VerticalOptions="Start" />
         <CollectionView
+            Grid.Row="1"
             BackgroundColor="Transparent"
             ItemsSource="{Binding Locations}"
             SelectionMode="None">
@@ -37,7 +57,7 @@
                                         StrokeThickness="0">
                                         <Label
                                             FontSize="10"
-                                            Text="Delete"
+                                            Text=""
                                             TextColor="White" />
                                     </Border>
 
@@ -102,21 +122,25 @@
 
         </CollectionView>
         <Button
-            Grid.Row="1"
+            Grid.Row="2"
             Margin="8"
+            BorderColor="#FF0088"
             Command="{Binding GoToAddLocationPageCommand}"
             IsEnabled="{Binding IsNotBusy}"
-            Text="Add new Location" />
+            Text="Add new Location"
+            VerticalOptions="End" />
         <ActivityIndicator
             Grid.RowSpan="2"
             HorizontalOptions="CenterAndExpand"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             Scale="2"
-            VerticalOptions="FillAndExpand" />
+            VerticalOptions="FillAndExpand"
+            Color="#50CBFF" />
 
 
     </Grid>
+
 
 
 </ContentPage>

@@ -26,8 +26,8 @@ namespace MauiApp1.Services
 
             await streamWriter.WriteAsync(content);
         }*/
-        
-        public async Task<List<my.Location>> GetLocations()
+
+        public async Task<List<my.Location>> GetLocations(bool checkForCoordinates = false)
         {
             try {
                 if (locations.Count == 0)
@@ -51,6 +51,10 @@ namespace MauiApp1.Services
                     {
                         await CheckCoordinates(locations);
                     }
+                }
+                if (checkForCoordinates)
+                {
+                    await CheckCoordinates(locations, true);
                 }
             }
              catch(Exception ex)
@@ -84,12 +88,12 @@ namespace MauiApp1.Services
 
 
         
-        public async Task CheckCoordinates(List<my.Location> locations)
+        public async Task CheckCoordinates(List<my.Location> locations, bool refresh = false)
         {
             try{
                 foreach (my.Location location in locations)
                 {
-                    if (location.Latitude == 0 && location.Longitude == 0)
+                    if ((location.Latitude == 0 && location.Longitude == 0) || refresh)
                     {
                         string address = location.Title + " " + location.Country;
                         IEnumerable<Location> mauiLocations = await Geocoding.Default.GetLocationsAsync(address);
@@ -106,7 +110,7 @@ namespace MauiApp1.Services
                     {
                         foreach (my.Place place in location.Places)
                         {
-                            if (place.Latitude == 0 && place.Longitude == 0)
+                            if ((place.Latitude == 0 && place.Longitude == 0) || refresh)
                             {
                                 string placeAddress = place.Title + " " + place.SubCategory + " " + location.Title + " " + location.Country;
                                 IEnumerable<Location> mauiPlaces = await Geocoding.Default.GetLocationsAsync(placeAddress);

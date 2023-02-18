@@ -128,5 +128,21 @@ namespace MauiApp1.ViewModel
                 await Shell.Current.DisplayAlert("Error!", $"Unable to open maps: {ex.Message}", "OK");
             }
         }
+
+
+        [RelayCommand]
+        async Task OpenBrowser()
+        {
+            try
+            {
+                Uri uri = new Uri("https://www.google.com/search?q=" + "+" + Place.Title + "+" + Place.SubCategory + "+" + Place.City + "+" + Place.Country);
+                await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to open browser: {ex.Message}", "OK");
+            }
+        }
     }
 }

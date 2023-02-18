@@ -14,6 +14,7 @@
         <toolkit:EventToCommandBehavior Command="{Binding LoadEditValuesCommand}" EventName="Appearing" />
         <toolkit:EventToCommandBehavior Command="{Binding FindCategoriesCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
+
     <Grid
         ColumnDefinitions="*"
         RowDefinitions="Auto, Auto, Auto, *, Auto"
@@ -21,13 +22,32 @@
         <Image
             Grid.RowSpan="5"
             Aspect="AspectFill"
-            Opacity="0.4"
+            Opacity="0.6"
             Source="{Binding Location.ImageURL}" />
-        <Label
-            Grid.Row="1"
-            Padding="10"
-            FontSize="20"
-            Text="{Binding Location.Description}" />
+        <Button
+            Grid.Row="0"
+            Margin="0"
+            Padding="8"
+            BorderColor="#18A9F0"
+            Command="{Binding GetDistanceToPlacesCommand}"
+            CornerRadius="40"
+            FontSize="10"
+            HeightRequest="34"
+            HorizontalOptions="CenterAndExpand"
+            Opacity="1"
+            Text="Update distances"
+            TextColor="White" />
+        <VerticalStackLayout Grid.Row="1" Margin="10">
+            <Label
+                Padding="10"
+                FontSize="20"
+                Text="{Binding Location.Description}" />
+            <Line
+                Stroke="#fc0065"
+                StrokeThickness="2"
+                X1="1000" />
+        </VerticalStackLayout>
+
         <toolkit:Expander
             Grid.Row="0"
             HorizontalOptions="Start"
@@ -146,14 +166,16 @@
 
         <Border
             Grid.Row="0"
-            Margin="5,5,5,5"
+            Margin="5,7,6,6"
             Padding="8,0,8,0"
             HorizontalOptions="End"
+            Stroke="#009018"
             StrokeShape="RoundRectangle 40,40,40,40"
             VerticalOptions="StartAndExpand">
             <Picker
                 x:Name="picker"
                 Title="Filter by category"
+                Margin="0"
                 FontSize="10"
                 HorizontalTextAlignment="Center"
                 ItemsSource="{Binding Categories}"
@@ -163,12 +185,7 @@
                 VerticalTextAlignment="Center" />
         </Border>
 
-        <Button
-            Grid.Row="0"
-            Margin="8"
-            Command="{Binding GetDistanceToPlacesCommand}"
-            HorizontalOptions="Center"
-            Text="Update distances" />
+
 
 
         <CollectionView Grid.Row="3" ItemsSource="{Binding Location.Places}">
@@ -190,7 +207,7 @@
                                         StrokeThickness="0">
                                         <Label
                                             FontSize="10"
-                                            Text="Delete"
+                                            Text=""
                                             TextColor="White" />
                                     </Border>
 
@@ -198,7 +215,10 @@
 
                             </SwipeItems>
                         </SwipeView.LeftItems>
-                        <Frame Margin="2" Padding="0">
+                        <Frame
+                            Margin="2"
+                            Padding="0"
+                            BorderColor="#501596">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=GoToPlaceDetailsCommand}" CommandParameter="{Binding .}" />
                             </Frame.GestureRecognizers>
@@ -212,17 +232,18 @@
 
                                 <CheckBox
                                     Grid.Column="0"
-                                    Margin="2"
+                                    Margin="5"
                                     IsChecked="{Binding IsVisited}"
-                                    Scale="2.5"
-                                    VerticalOptions="CenterAndExpand" />
+                                    Scale="2"
+                                    VerticalOptions="CenterAndExpand"
+                                    Color="#D81143" />
 
 
                                 <Label
                                     Grid.Column="1"
                                     Padding="0"
-                                    FontSize="16"
-                                    MinimumHeightRequest="50"
+                                    FontSize="14"
+                                    MinimumHeightRequest="60"
                                     Text="{Binding Title}"
                                     VerticalOptions="FillAndExpand"
                                     VerticalTextAlignment="Center" />
@@ -239,7 +260,8 @@
                                         Padding="8"
                                         BackgroundColor="Transparent"
                                         FontAttributes="Bold"
-                                        Text="{Binding SubCategory}" />
+                                        Text="{Binding SubCategory}"
+                                        TextColor="#5DC67B" />
                                 </Border>
                                 <Label
                                     Grid.Column="3"
@@ -247,6 +269,7 @@
                                     BackgroundColor="Transparent"
                                     FontAttributes="Bold"
                                     Text="{Binding DistanceString}"
+                                    TextColor="#5BB6FA"
                                     VerticalOptions="Center" />
 
 
@@ -261,6 +284,7 @@
         <Button
             Grid.Row="4"
             Margin="8"
+            BorderColor="#FF0088"
             Command="{Binding GoToAddPlaceCommand}"
             Text="Add new Place" />
 
@@ -272,7 +296,8 @@
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
             Scale="2"
-            VerticalOptions="CenterAndExpand" />
+            VerticalOptions="CenterAndExpand"
+            Color="#50CBFF" />
 
     </Grid>
 
