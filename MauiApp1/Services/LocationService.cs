@@ -47,8 +47,12 @@ namespace MauiApp1.Services
                     string jsonString = await reader.ReadToEndAsync();
 
                     locations = JsonConvert.DeserializeObject<List<my.Location>>(jsonString);
+                    if (locations != null)
+                    {
+                        await CheckCoordinates(locations);
+                    }
                 }
-             }
+            }
              catch(Exception ex)
              {
                     System.Diagnostics.Debug.WriteLine(ex);
@@ -79,8 +83,52 @@ namespace MauiApp1.Services
         }
 
 
-       
+        
+        public async Task CheckCoordinates(List<my.Location> locations)
+        {
+            try{
+                foreach (my.Location location in locations)
+                {
+                    if (location.Latitude == 0 && location.Longitude == 0)
+                    {
+                        string address = location.Title + " " + location.Country;
+                        IEnumerable<Location> mauiLocations = await Geocoding.Default.GetLocationsAsync(address);
 
+                        Location mauiLocation = mauiLocations?.FirstOrDefault();
+
+                        if (mauiLocation != null)
+                        {
+                            location.Latitude = mauiLocation.Latitude;
+                            location.Longitude = mauiLocation.Longitude;
+                        }
+                    }
+                    if(location.Places != null)
+                    {
+                        foreach (my.Place place in location.Places)
+                        {
+                            if (place.Latitude == 0 && place.Longitude == 0)
+                            {
+                                string placeAddress = place.Title + " " + place.SubCategory + " " + location.Title + " " + location.Country;
+                                IEnumerable<Location> mauiPlaces = await Geocoding.Default.GetLocationsAsync(placeAddress);
+
+                                Location mauiPlace = mauiPlaces?.FirstOrDefault();
+
+                                if (mauiPlace != null)
+                                {
+                                    place.Latitude = mauiPlace.Latitude;
+                                    place.Longitude = mauiPlace.Longitude;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", "Unable to check coordinates for locations" + ex.Message, "OK");
+            }
+        }
        
     }
 }

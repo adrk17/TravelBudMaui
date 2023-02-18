@@ -10,11 +10,18 @@
     x:DataType="viewmodel:PlaceDetailsViewModel">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding LoadEditValuesCommand}" EventName="Appearing" />
+        <toolkit:EventToCommandBehavior Command="{Binding GetDistanceToPlaceCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
+
     <Grid
         ColumnDefinitions="*"
-        RowDefinitions="Auto, Auto, Auto"
+        RowDefinitions="Auto, Auto, *"
         RowSpacing="0">
+        <Image
+            Grid.RowSpan="6"
+            Aspect="AspectFill"
+            Opacity="0.4"
+            Source="{Binding Place.ImageURL}" />
         <toolkit:Expander Grid.Row="0">
             <toolkit:Expander.Header>
                 <Image
@@ -26,8 +33,8 @@
             <Frame
                 BackgroundColor="#230841"
                 CornerRadius="20"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
+                HorizontalOptions="Start"
+                VerticalOptions="Start">
 
                 <VerticalStackLayout>
                     <HorizontalStackLayout
@@ -91,10 +98,7 @@
                             VerticalOptions="Center" />
 
                     </HorizontalStackLayout>
-                    <Image
-                        Aspect="AspectFill"
-                        HeightRequest="200"
-                        Source="{Binding EditImageSourceVar}" />
+
                     <HorizontalStackLayout>
                         <Label
                             Margin="0"
@@ -111,12 +115,6 @@
                             TextColor="Azure"
                             VerticalOptions="Center" />
                     </HorizontalStackLayout>
-
-                    <Button
-                        Command="{Binding EditPickImageCommand}"
-                        HorizontalOptions="Start"
-                        Text="Load image"
-                        WidthRequest="200" />
                     <Button
                         Margin="8"
                         Command="{Binding SaveEditChangesCommand}"
@@ -127,18 +125,47 @@
             </Frame>
 
         </toolkit:Expander>
+        <Border
+            Grid.Row="0"
+            Margin="2,2,2,2"
+            Padding="8,8,8,8"
+            HorizontalOptions="End"
+            StrokeShape="RoundRectangle 40,40,40,40"
+            VerticalOptions="StartAndExpand">
+            <Label Text="{Binding Place.SubCategory}" />
+        </Border>
+        <VerticalStackLayout
+            Grid.Row="1"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+            <Label
+                Grid.Row="1"
+                Padding="10"
+                FontSize="20"
+                Text="{Binding Place.Description}" />
+            <StackLayout RadioButtonGroup.GroupName="Map options">
+                <Label Text="Map searching mode:" />
+                <RadioButton Content="Only Coordinates" IsChecked="{Binding Coords}" />
+                <RadioButton Content="Only Address" IsChecked="{Binding Address}" />
+                <RadioButton Content="Address + Category" IsChecked="{Binding AddressCategory}" />
+            </StackLayout>
+            <Label Text="Current distance to target:" />
+            <Label
+                Padding="10"
+                FontSize="20"
+                Text="{Binding Place.DistanceString}" />
 
-        <VerticalStackLayout Grid.Row="1">
-            <Frame HorizontalOptions="End">
-                <Label Text="{Binding Place.SubCategory}" />
-            </Frame>
-            <Frame>
-                <Label Text="{Binding Place.Description}" />
-            </Frame>
+
 
 
 
         </VerticalStackLayout>
+        <Button
+            Grid.Row="2"
+            Command="{Binding NavigateToMapsCommand}"
+            HorizontalOptions="FillAndExpand"
+            Text="Open Maps"
+            VerticalOptions="EndAndExpand" />
 
         <ActivityIndicator
             Grid.RowSpan="3"

@@ -20,6 +20,14 @@ namespace Resources.Classes
 
         public string ImageURL { get; set; }
 
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        
+        public string DistanceString { get; set; }
+        public double Distance { get; set; }
+
         public Place()
         {
             Title = "Default";
@@ -28,6 +36,10 @@ namespace Resources.Classes
             IsVisited = false;
             IsVisible = true;
             ImageURL = "";
+            Country = "";
+            City = "";
+            DistanceString = "";
+            Distance = 0;
         }
         public Place(string title, string description, string subCategory = "Other", bool isVisited = false, bool isVisible = true, string imageURL="")
         {
@@ -43,6 +55,9 @@ namespace Resources.Classes
         {
             Place a = this;
             Place b = (Place)o;
+            if (a.IsVisible == b.IsVisible && a.IsVisible == true)
+                return a.Distance.CompareTo(b.Distance);
+            
             return b.IsVisible.CompareTo(a.IsVisible);
         }
 

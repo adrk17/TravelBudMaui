@@ -1,6 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Android.Webkit;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using IntelliJ.Lang.Annotations;
 using MauiApp1.Services;
+using Microsoft.Maui.Devices.Sensors;
 using my = Resources.Classes;
 
 namespace MauiApp1.ViewModel
@@ -9,10 +12,11 @@ namespace MauiApp1.ViewModel
     public partial class PlaceDetailsViewModel : BaseViewModel
     {
         LocationService locationService;
-
-        public PlaceDetailsViewModel(LocationService locationService)
+        IGeolocation geolocation;
+        public PlaceDetailsViewModel(LocationService locationService, IGeolocation geolocation)
         {
             this.locationService = locationService;
+            this.geolocation = geolocation;
         }
 
         [ObservableProperty]
@@ -81,23 +85,47 @@ namespace MauiApp1.ViewModel
             EditImgUrl = Place.ImageURL;
         }
 
+     
+
+       
+
+
         [ObservableProperty]
-        ImageSource editImageSourceVar;
+        bool coords;
+        [ObservableProperty]
+        bool address;
+        [ObservableProperty]
+        bool addressCategory = true;
+
 
         [RelayCommand]
-        public void EditPickImage()
+        public async Task NavigateToMaps()
         {
-            if (EditImgUrl is null || EditImgUrl == "")
-            {
-                return;
-            }
             try
             {
-                EditImageSourceVar = ImageSource.FromUri(new Uri(EditImgUrl));
+                if (Coords)
+                {
+                    await Map.OpenAsync(Place.Latitude, Place.Longitude);
+                }
+                else if (Address)
+                {
+                    var options = new MapLaunchOptions { Name = Place.Title + " " + Place.City + " " + Place.Country };
+                    Placemark pl = new Placemark();
+                    pl.Location = new Location(Place.Latitude, Place.Longitude);
+                    await Map.OpenAsync(pl, options);
+                }
+                else if (AddressCategory)
+                {
+                    var options = new MapLaunchOptions { Name = Place.Title + " " + Place.SubCategory + " " + Place.City + " " + Place.Country };
+                    Placemark pl = new Placemark();
+                    pl.Location = new Location(Place.Latitude, Place.Longitude);
+                    await Map.OpenAsync(pl, options);
+                }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                return;
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to open maps: {ex.Message}", "OK");
             }
         }
     }

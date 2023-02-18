@@ -2,12 +2,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiApp1.Services;
+using Microsoft.Maui.Devices.Sensors;
 using Resources.Classes;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using static Android.Provider.CallLog;
 using my = Resources.Classes;
 namespace MauiApp1.ViewModel
 {
@@ -16,10 +13,10 @@ namespace MauiApp1.ViewModel
     {
         LocationService locationService;
 
-        public LocationDetailsViewModel(LocationService locationService)
+        public LocationDetailsViewModel(LocationService locationService, IGeolocation geolocation)
         {
             this.locationService = locationService;
-            
+            this.geolocation = geolocation;
         }
 
         [ObservableProperty]
@@ -82,6 +79,14 @@ namespace MauiApp1.ViewModel
                 Location.Country = EditCountry;
                 Location.Description = EditDescription;
                 Location.ImageURL = EditImgUrl;
+                if (Location.Places is not null)
+                {
+                    foreach (var place in Location.Places)
+                    {
+                        place.City = Location.Title;
+                        place.Country = Location.Country;
+                    }
+                }
                 locationService.SaveLocations();
                 await Shell.Current.GoToAsync("../");
 
@@ -112,12 +117,25 @@ namespace MauiApp1.ViewModel
         {
             if (place is null)
                 return;
-
-            await Shell.Current.GoToAsync($"{nameof(PlaceDetailsPage)}", true,
+            try
+            {
+                IsBusy = true;
+                await Shell.Current.GoToAsync($"{nameof(PlaceDetailsPage)}", true,
                 new Dictionary<string, object>
                 {
                     {"Place", place}
                 });
+            }
+            catch(Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to go to place: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+            
         }
 
         [RelayCommand]
@@ -191,7 +209,8 @@ namespace MauiApp1.ViewModel
             Location.Places.Sort();
         }
 
-
+        IGeolocation geolocation;
+        
         [ObservableProperty]
         ImageSource editImageSourceVar;
 
@@ -209,6 +228,44 @@ namespace MauiApp1.ViewModel
             catch (Exception ex)
             {
                 return;
+            }
+        }
+
+        [RelayCommand]
+        async Task GetDistanceToPlaces()
+        {
+            if (IsBusy)
+            {
+                return;
+            }
+            try
+            {
+                var currentLocation = await geolocation.GetLocationAsync(
+                        new GeolocationRequest
+                        {
+                            DesiredAccuracy = GeolocationAccuracy.Best,
+                            Timeout = TimeSpan.FromSeconds(30),
+                        });
+                foreach(var pl in Location.Places)
+                {
+                    double distance = currentLocation.CalculateDistance(pl.Latitude, pl.Longitude, DistanceUnits.Kilometers);
+                    if (distance < 1)
+                    {
+                        pl.DistanceString = (Math.Round((distance * 1000), 0)).ToString() + "m";
+                    }
+                    else
+                    {
+                        pl.DistanceString = Math.Round(distance, 2).ToString() + "km";
+                    }
+                    pl.Distance = distance;
+                }
+                Location.Places.Sort();
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error!", $"Unable to meassure distance: {ex.Message}", "OK");
             }
         }
     }

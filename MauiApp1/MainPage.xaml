@@ -53,16 +53,45 @@
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationViewModel}}, Path=GoToLocationDetailsCommand}" CommandParameter="{Binding .}" />
                             </Frame.GestureRecognizers>
                             <Grid Padding="0">
+                                <Image
+                                    Aspect="AspectFill"
+                                    Opacity="0.8"
+                                    Source="{Binding ImageURL}" />
                                 <VerticalStackLayout Padding="10">
+                                    <Frame
+                                        Margin="0"
+                                        Padding="3"
+                                        BackgroundColor="#33FFFFFF"
+                                        BorderColor="Transparent"
+                                        HorizontalOptions="Start"
+                                        Opacity="1"
+                                        VerticalOptions="Start">
+                                        <Label
+                                            FontSize="35"
+                                            Opacity="1"
+                                            Text="{Binding Title}"
+                                            TextColor="Black" />
+                                    </Frame>
+
                                     <Label
-                                        FontSize="35"
-                                        Text="{Binding Title}"
+                                        FontAttributes="Italic"
+                                        Text="{Binding Description}"
                                         TextColor="Black" />
-                                    <Label
-                                        FontSize="20"
-                                        Text="{Binding Country}"
-                                        TextColor="DarkGray" />
-                                    <Label Text="{Binding Description}" TextColor="Black" />
+                                    <Frame
+                                        Margin="0"
+                                        Padding="3"
+                                        BackgroundColor="#33FFFFFF"
+                                        BorderColor="Transparent"
+                                        HorizontalOptions="End"
+                                        Opacity="1"
+                                        VerticalOptions="End">
+                                        <Label
+                                            FontSize="20"
+                                            Text="{Binding Country}"
+                                            TextColor="Black" />
+                                    </Frame>
+
+
                                 </VerticalStackLayout>
                             </Grid>
                         </Frame>
@@ -78,6 +107,13 @@
             Command="{Binding GoToAddLocationPageCommand}"
             IsEnabled="{Binding IsNotBusy}"
             Text="Add new Location" />
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            HorizontalOptions="CenterAndExpand"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            Scale="2"
+            VerticalOptions="FillAndExpand" />
 
 
     </Grid>

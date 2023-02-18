@@ -58,7 +58,7 @@ namespace MauiApp1.ViewModel
                 return;
             try
             {
-
+                IsBusy = true;
                 await Shell.Current.GoToAsync($"{nameof(LocationDetailsPage)}", true,
                 new Dictionary<string, object>
                 {

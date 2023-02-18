@@ -51,6 +51,8 @@ namespace MauiApp1.ViewModel
                     PlaceImgUrl = "";
                 }
                 my.Place newPlace = new my.Place(PlaceName, PlaceDescription, PlaceSubCategory, false, true, PlaceImgUrl);
+                newPlace.Country = Location.Country;
+                newPlace.City = Location.Title;
                 Location.Places.Add(newPlace);
                 locationService.SaveLocations();
 
@@ -92,5 +94,6 @@ namespace MauiApp1.ViewModel
                 return;
             }
         }
+
     }
 }

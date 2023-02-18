@@ -18,6 +18,16 @@
         ColumnDefinitions="*"
         RowDefinitions="Auto, Auto, Auto, *, Auto"
         RowSpacing="0">
+        <Image
+            Grid.RowSpan="5"
+            Aspect="AspectFill"
+            Opacity="0.4"
+            Source="{Binding Location.ImageURL}" />
+        <Label
+            Grid.Row="1"
+            Padding="10"
+            FontSize="20"
+            Text="{Binding Location.Description}" />
         <toolkit:Expander
             Grid.Row="0"
             HorizontalOptions="Start"
@@ -135,16 +145,15 @@
         </toolkit:Expander>
 
         <Border
-            Grid.Row="1"
-            Margin="0,5,5,0"
-            Padding="10,0,10,0"
+            Grid.Row="0"
+            Margin="5,5,5,5"
+            Padding="8,0,8,0"
             HorizontalOptions="End"
-            StrokeShape="RoundRectangle 90,90,90,90"
+            StrokeShape="RoundRectangle 40,40,40,40"
             VerticalOptions="StartAndExpand">
             <Picker
                 x:Name="picker"
                 Title="Filter by category"
-                Margin="4"
                 FontSize="10"
                 HorizontalTextAlignment="Center"
                 ItemsSource="{Binding Categories}"
@@ -154,11 +163,13 @@
                 VerticalTextAlignment="Center" />
         </Border>
 
-        <Label
-            Grid.Row="2"
-            Padding="10"
-            FontSize="20"
-            Text="{Binding Location.Description}" />
+        <Button
+            Grid.Row="0"
+            Margin="8"
+            Command="{Binding GetDistanceToPlacesCommand}"
+            HorizontalOptions="Center"
+            Text="Update distances" />
+
 
         <CollectionView Grid.Row="3" ItemsSource="{Binding Location.Places}">
             <CollectionView.ItemTemplate>
@@ -187,24 +198,60 @@
 
                             </SwipeItems>
                         </SwipeView.LeftItems>
-                        <Frame>
+                        <Frame Margin="2" Padding="0">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=GoToPlaceDetailsCommand}" CommandParameter="{Binding .}" />
                             </Frame.GestureRecognizers>
+
                             <Grid
-                                Padding="0"
-                                ColumnDefinitions="Auto, *"
-                                ColumnSpacing="10">
-                                <CheckBox Grid.Column="0" IsChecked="{Binding IsVisited}" />
-                                <VerticalStackLayout Grid.Column="1">
-                                    <Label FontSize="23" Text="{Binding Title}" />
+                                Padding="10"
+                                ColumnDefinitions="Auto, *, Auto, Auto"
+                                ColumnSpacing="15"
+                                RowDefinitions="*"
+                                VerticalOptions="FillAndExpand">
+
+                                <CheckBox
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    IsChecked="{Binding IsVisited}"
+                                    Scale="2.5"
+                                    VerticalOptions="CenterAndExpand" />
+
+
+                                <Label
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    FontSize="16"
+                                    MinimumHeightRequest="50"
+                                    Text="{Binding Title}"
+                                    VerticalOptions="FillAndExpand"
+                                    VerticalTextAlignment="Center" />
+                                <Border
+                                    Grid.Column="2"
+                                    Margin="0"
+                                    Padding="0"
+                                    BackgroundColor="#7FFFFFFF"
+                                    HorizontalOptions="End"
+                                    StrokeShape="Roundrectangle 90"
+                                    StrokeThickness="0"
+                                    VerticalOptions="Center">
                                     <Label
+                                        Padding="8"
                                         BackgroundColor="Transparent"
                                         FontAttributes="Bold"
                                         Text="{Binding SubCategory}" />
+                                </Border>
+                                <Label
+                                    Grid.Column="3"
+                                    Padding="8"
+                                    BackgroundColor="Transparent"
+                                    FontAttributes="Bold"
+                                    Text="{Binding DistanceString}"
+                                    VerticalOptions="Center" />
 
-                                </VerticalStackLayout>
+
                             </Grid>
+
 
                         </Frame>
                     </SwipeView>
@@ -217,11 +264,14 @@
             Command="{Binding GoToAddPlaceCommand}"
             Text="Add new Place" />
 
+
+
         <ActivityIndicator
             Grid.RowSpan="5"
             HorizontalOptions="FillAndExpand"
             IsRunning="{Binding IsBusy}"
             IsVisible="{Binding IsBusy}"
+            Scale="2"
             VerticalOptions="CenterAndExpand" />
 
     </Grid>

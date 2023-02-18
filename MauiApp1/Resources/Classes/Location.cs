@@ -12,6 +12,9 @@ namespace Resources.Classes
         public ObservableCollection<Place> Places { get; set; }
         public string ImageURL { get; set; }
 
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
 
         public Location()
         {
