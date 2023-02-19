@@ -25,7 +25,7 @@
     </ContentPage.Background>
     <Grid
         ColumnDefinitions="*"
-        RowDefinitions="Auto, Auto, Auto, *"
+        RowDefinitions="Auto, Auto, Auto, *, Auto"
         RowSpacing="0">
         <Image
             Grid.RowSpan="4"
@@ -34,11 +34,22 @@
             Source="{Binding Place.ImageURL}" />
         <toolkit:Expander Grid.Row="0">
             <toolkit:Expander.Header>
-                <Image
-                    Margin="10"
+                <Frame
+                    Margin="5"
+                    Padding="5"
+                    BorderColor="Transparent"
+                    CornerRadius="5"
                     HorizontalOptions="Start"
-                    Source="edit.png"
-                    WidthRequest="30" />
+                    VerticalOptions="Start">
+
+                    <Image
+                        Margin="0"
+                        BackgroundColor="#555555"
+                        HorizontalOptions="Center"
+                        Source="edit2.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30" />
+                </Frame>
             </toolkit:Expander.Header>
             <Frame
                 BackgroundColor="#230841"
@@ -183,6 +194,14 @@
                     FontSize="20"
                     Text="{Binding Place.DistanceString}"
                     TextColor="#00BF92" />
+                <Label Text="Exclude category when searching for coordinates?" />
+                <CheckBox
+                    HorizontalOptions="Start"
+                    IsChecked="{Binding Place.ExcludeCategoryWhenSearching}"
+                    VerticalOptions="Start" />
+
+
+
 
 
 
@@ -191,11 +210,13 @@
             </VerticalStackLayout>
         </Border>
         <HorizontalStackLayout
-            Grid.Row="3"
+            Grid.Row="4"
             Padding="10"
             HorizontalOptions="CenterAndExpand"
             Spacing="10">
             <Button
+                Margin="0"
+                Padding="10"
                 BorderColor="#029270"
                 Command="{Binding NavigateToMapsCommand}"
                 HorizontalOptions="StartAndExpand"
@@ -203,6 +224,8 @@
                 VerticalOptions="EndAndExpand"
                 WidthRequest="180" />
             <Button
+                Margin="0"
+                Padding="10"
                 BorderColor="#967613"
                 Command="{Binding OpenBrowserCommand}"
                 HorizontalOptions="EndAndExpand"

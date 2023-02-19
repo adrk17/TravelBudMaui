@@ -34,6 +34,7 @@
             FontSize="10"
             HeightRequest="34"
             HorizontalOptions="CenterAndExpand"
+            IsEnabled="{Binding IsNotBusy}"
             Opacity="1"
             Text="Update distances"
             TextColor="White" />
@@ -53,25 +54,33 @@
             HorizontalOptions="Start"
             VerticalOptions="Start">
             <toolkit:Expander.Header>
-                <Image
-                    Margin="10"
+                <Frame
+                    Margin="5"
+                    Padding="5"
+                    BorderColor="Transparent"
+                    CornerRadius="5"
                     HorizontalOptions="Start"
-                    Source="edit.png"
-                    WidthRequest="30" />
+                    VerticalOptions="Start">
+                    <Image
+                        Margin="0"
+                        BackgroundColor="#555555"
+                        HorizontalOptions="Center"
+                        Source="edit2.png"
+                        VerticalOptions="Center"
+                        WidthRequest="30" />
+                </Frame>
+
             </toolkit:Expander.Header>
             <Frame
-                BackgroundColor="#230841"
                 CornerRadius="20"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="FillAndExpand">
-
                 <VerticalStackLayout>
                     <HorizontalStackLayout
                         Margin="0"
                         Padding="0"
                         HorizontalOptions="FillAndExpand"
                         Spacing="10">
-
                         <Label
                             Margin="0"
                             FontSize="20"
@@ -168,6 +177,7 @@
             Grid.Row="0"
             Margin="5,7,6,6"
             Padding="8,0,8,0"
+            BackgroundColor="#191919"
             HorizontalOptions="End"
             Stroke="#009018"
             StrokeShape="RoundRectangle 40,40,40,40"
@@ -195,20 +205,19 @@
                     <SwipeView
                         IsClippedToBounds="True"
                         IsVisible="{Binding IsVisible}"
-                        Threshold="40">
+                        Threshold="80">
                         <SwipeView.LeftItems>
                             <SwipeItems Mode="Execute">
                                 <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=DeletePlaceCommand}" CommandParameter="{Binding .}">
 
                                     <Border
                                         Margin="0"
-                                        BackgroundColor="#A01515"
-                                        StrokeShape="RoundRectangle 10,0,10,0"
-                                        StrokeThickness="0">
-                                        <Label
-                                            FontSize="10"
-                                            Text=""
-                                            TextColor="White" />
+                                        BackgroundColor="#E34C4C"
+                                        Opacity="0.8"
+                                        Stroke="#FF0020"
+                                        StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="1">
+                                        <Image Aspect="AspectFill" Source="trash.png" />
                                     </Border>
 
                                 </SwipeItemView>
@@ -222,6 +231,12 @@
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationDetailsViewModel}}, Path=GoToPlaceDetailsCommand}" CommandParameter="{Binding .}" />
                             </Frame.GestureRecognizers>
+                            <Frame.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0.0" Color="#191919" />
+                                    <GradientStop Offset="0.8" Color="#220445" />
+                                </LinearGradientBrush>
+                            </Frame.Background>
 
                             <Grid
                                 Padding="10"
@@ -286,6 +301,7 @@
             Margin="8"
             BorderColor="#FF0088"
             Command="{Binding GoToAddPlaceCommand}"
+            IsEnabled="{Binding IsNotBusy}"
             Text="Add new Place" />
 
 

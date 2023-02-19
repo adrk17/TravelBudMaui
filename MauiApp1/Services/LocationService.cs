@@ -113,6 +113,10 @@ namespace MauiApp1.Services
                             if ((place.Latitude == 0 && place.Longitude == 0) || refresh)
                             {
                                 string placeAddress = place.Title + " " + place.SubCategory + " " + location.Title + " " + location.Country;
+                                if (place.ExcludeCategoryWhenSearching)
+                                {
+                                    placeAddress = place.Title + " " + location.Title + " " + location.Country;
+                                }
                                 IEnumerable<Location> mauiPlaces = await Geocoding.Default.GetLocationsAsync(placeAddress);
 
                                 Location mauiPlace = mauiPlaces?.FirstOrDefault();

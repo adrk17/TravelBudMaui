@@ -27,6 +27,7 @@ namespace Resources.Classes
         
         public string DistanceString { get; set; }
         public double Distance { get; set; }
+        public bool ExcludeCategoryWhenSearching { get; set; }
 
         public Place()
         {
@@ -40,6 +41,7 @@ namespace Resources.Classes
             City = "";
             DistanceString = "";
             Distance = 0;
+            ExcludeCategoryWhenSearching = false;
         }
         public Place(string title, string description, string subCategory = "Other", bool isVisited = false, bool isVisible = true, string imageURL="")
         {

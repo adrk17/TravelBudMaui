@@ -240,6 +240,7 @@ namespace MauiApp1.ViewModel
             }
             try
             {
+                IsBusy = true;
                 var currentLocation = await geolocation.GetLocationAsync(
                         new GeolocationRequest
                         {
@@ -266,6 +267,10 @@ namespace MauiApp1.ViewModel
             {
                 System.Diagnostics.Debug.WriteLine(ex);
                 await Shell.Current.DisplayAlert("Error!", $"Unable to meassure distance: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

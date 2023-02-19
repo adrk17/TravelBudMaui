@@ -22,6 +22,24 @@
         </LinearGradientBrush>
 
     </ContentPage.Background>
+    <Shell.TitleView>
+        <HorizontalStackLayout Padding="0" Spacing="20">
+            <Image
+                Margin="0"
+                Aspect="AspectFit"
+                HorizontalOptions="Start"
+                Source="tb.png"
+                VerticalOptions="Center" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="17"
+                HorizontalOptions="Start"
+                Text="TravelBud"
+                VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+
+    </Shell.TitleView>
 
     <Grid
         ColumnDefinitions="*"
@@ -35,7 +53,8 @@
             BorderColor="#1880F0"
             Command="{Binding RefreshLocationsCommand}"
             HorizontalOptions="Start"
-            Text="Refresh"
+            IsEnabled="{Binding IsNotBusy}"
+            Text="Refresh Coordinates"
             VerticalOptions="Start" />
         <CollectionView
             Grid.Row="1"
@@ -45,20 +64,19 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Location">
 
-                    <SwipeView Threshold="40">
+                    <SwipeView Threshold="100">
                         <SwipeView.LeftItems>
                             <SwipeItems Mode="Execute">
                                 <SwipeItemView Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationViewModel}}, Path=DeleteLocationCommand}" CommandParameter="{Binding .}">
 
                                     <Border
                                         Margin="0"
-                                        BackgroundColor="#A01515"
-                                        StrokeShape="RoundRectangle 10,0,10,0"
-                                        StrokeThickness="0">
-                                        <Label
-                                            FontSize="10"
-                                            Text=""
-                                            TextColor="White" />
+                                        BackgroundColor="#E34C4C"
+                                        Opacity="0.8"
+                                        Stroke="#FF0020"
+                                        StrokeShape="RoundRectangle 20"
+                                        StrokeThickness="1">
+                                        <Image Aspect="AspectFill" Source="trash.png" />
                                     </Border>
 
                                 </SwipeItemView>
@@ -68,6 +86,7 @@
                         <Frame
                             Margin="6,6,6,3"
                             Padding="0"
+                            BorderColor="#FF0020"
                             HeightRequest="125">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:LocationViewModel}}, Path=GoToLocationDetailsCommand}" CommandParameter="{Binding .}" />
@@ -80,17 +99,28 @@
                                 <VerticalStackLayout Padding="10">
                                     <Frame
                                         Margin="0"
-                                        Padding="3"
-                                        BackgroundColor="#33FFFFFF"
+                                        Padding="6,1,6,1"
+                                        BackgroundColor="#4CFFFFFF"
                                         BorderColor="Transparent"
                                         HorizontalOptions="Start"
                                         Opacity="1"
                                         VerticalOptions="Start">
-                                        <Label
-                                            FontSize="35"
-                                            Opacity="1"
-                                            Text="{Binding Title}"
-                                            TextColor="Black" />
+                                        <Frame.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                <GradientStop Offset="0.1" Color="#4C440271" />
+                                                <GradientStop Offset="0.5" Color="#33FF0F5A" />
+                                            </LinearGradientBrush>
+                                        </Frame.Background>
+                                        <StackLayout>
+
+                                            <Label
+                                                FontSize="35"
+                                                Opacity="1"
+                                                Text="{Binding Title}"
+                                                TextColor="Black" />
+
+                                        </StackLayout>
+
                                     </Frame>
 
                                     <Label
@@ -99,8 +129,8 @@
                                         TextColor="Black" />
                                     <Frame
                                         Margin="0"
-                                        Padding="3"
-                                        BackgroundColor="#33FFFFFF"
+                                        Padding="6,1,6,1"
+                                        BackgroundColor="#335503A0"
                                         BorderColor="Transparent"
                                         HorizontalOptions="End"
                                         Opacity="1"
